@@ -24,7 +24,7 @@ jobs:
         uses: actions/setup-java@v5
         with:
           java-version: 11
-          distribution: 'coretto'
+          distribution: 'corretto'
 
       - name: Setup Maven Dependency Cache
         uses: actions/cache@v4

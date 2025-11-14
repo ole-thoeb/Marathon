@@ -36,8 +36,7 @@ jobs:
         run: pip install zizmor
 
       - name: Run zizmor on workflows
-        run: | # --no-exit-codes --format sarif . > zizmor-scan-results.sarif || true
-          zizmor --offline .
+        run: zizmor --no-exit-codes --format sarif . > zizmor-scan-results.sarif || true
 
       - name: Upload SARIF (zizmor)
         uses: actions/upload-artifact@v4 # Use github/codeql-action/upload-sarif action instead (when either public repo or CodeQL enabled in enterprise commercial repo)

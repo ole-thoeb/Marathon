@@ -47,3 +47,17 @@ jobs:
           name: sbom-cyclonedx.json
           path: target/bom.json
  
+      # ======================================================
+
+      - name: Grype Dependency Scanner (Report)
+        id: scan
+        uses: anchore/scan-action@568b89d27fc18c60e56937bff480c91c772cd993
+        with:
+          path: "."
+          fail-build: false # to always generate the report, then again a scan that might fail
+
+      - name: Upload Grype SARIF Results
+        uses: actions/upload-artifact@v5
+        with: # Yep, you can open this file in your IDE: Just drag and drop it into IntelliJ IDEA or Visual Studio Code
+          name: grype-scan-results.sarif
+          path: ${{ steps.scan.outputs.sarif }}

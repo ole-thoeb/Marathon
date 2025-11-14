@@ -16,15 +16,15 @@ jobs:
 
     steps:
       - name: Checkout Sources
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           persist-credentials: false
 
       - name: Set up JDK
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           java-version: 11
-          distribution: 'temurin'
+          distribution: 'coretto'
 
       - name: Setup Maven Dependency Cache
         uses: actions/cache@v4
@@ -35,4 +35,15 @@ jobs:
 
       - name: Build with Maven
         run: mvn clean install
+
+      # ======================================================
+
+      - name: Generate CycloneDX SBOM
+        run: mvn org.cyclonedx:cyclonedx-maven-plugin:2.7.9:makeAggregateBom # outputs to target/bom.json and/or bom.xml
+
+      - name: Upload SBOM as Artifact
+        uses: actions/upload-artifact@v5
+        with:
+          name: sbom-cyclonedx.json
+          path: target/bom.json
  
